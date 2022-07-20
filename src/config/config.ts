@@ -6,9 +6,7 @@ export interface AppConfiguration {
   NODE_ENV: NODE_ENV;
   SERVER_PORT: number;
   SERVER_HOST: string;
-  JWT_SECRET: string;
   API_BASE_PATH: string;
-  APP_SERVING_URL: string;
   REVERSE_PROXY: boolean;
   MONGODB_USE_IN_MEMORY_DB?: boolean;
 
@@ -17,10 +15,6 @@ export interface AppConfiguration {
 
   MINIO_REGION?: string;
   MINIO_USE_SSL?: string;
-
-  CRYPTO: {
-    SYSTEM_SECRET: string;
-  };
 
   EVENT: {
     BUCKET_NAME: string;
@@ -59,7 +53,6 @@ export interface AppConfiguration {
 const getConfig = (): AppConfiguration =>
   loadConfig<AppConfiguration>('app.ini', {
     API_BASE_PATH: '',
-    APP_SERVING_URL: '',
     SERVER_PORT: 4040,
     SERVER_HOST: 'localhost',
     app: {
