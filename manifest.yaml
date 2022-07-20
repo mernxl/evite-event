@@ -53,7 +53,7 @@ spec:
     spec:
       containers:
         - name: evite-micro-event
-          image: docker.io/mernxl/evite-micro-event:latest
+          image: registry.gitlab.com/mernxl-evite/evite-micro-event:latest
           imagePullPolicy: IfNotPresent
           env:
             - name: CRYPTO_GRPC_ADDRESS
