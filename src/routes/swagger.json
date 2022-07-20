@@ -1,0 +1,532 @@
+{
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"EventTicketMeta": {
+				"properties": {
+					"qrSize": {
+						"type": "string"
+					},
+					"qrPosition": {
+						"properties": {
+							"y": {
+								"type": "string"
+							},
+							"x": {
+								"type": "string"
+							}
+						},
+						"required": [
+							"y",
+							"x"
+						],
+						"type": "object"
+					}
+				},
+				"required": [
+					"qrSize",
+					"qrPosition"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"EventBase": {
+				"properties": {
+					"_id": {
+						"type": "string"
+					},
+					"name": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"ticket": {
+						"$ref": "#/components/schemas/EventTicketMeta"
+					},
+					"hasTicket": {
+						"type": "boolean"
+					},
+					"hasKeyword": {
+						"type": "boolean"
+					},
+					"organizerId": {
+						"type": "string"
+					},
+					"authorityIds": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"signingKeyIdHash": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"_id",
+					"name",
+					"hasKeyword",
+					"organizerId",
+					"authorityIds",
+					"signingKeyIdHash"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"EventPopulated": {
+				"properties": {
+					"ticketUrl": {
+						"type": "string"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"IDocMetaTimestamp": {
+				"properties": {
+					"createdAt": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"updatedAt": {
+						"type": "string",
+						"format": "date-time"
+					}
+				},
+				"required": [
+					"createdAt",
+					"updatedAt"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Event": {
+				"allOf": [
+					{
+						"$ref": "#/components/schemas/EventBase"
+					},
+					{
+						"$ref": "#/components/schemas/EventPopulated"
+					},
+					{
+						"$ref": "#/components/schemas/IDocMetaTimestamp"
+					}
+				]
+			},
+			"CreateOneEventInput": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"ticket": {
+						"properties": {
+							"qrPosition": {
+								"properties": {
+									"y": {
+										"type": "string"
+									},
+									"x": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"y",
+									"x"
+								],
+								"type": "object"
+							},
+							"qrSize": {
+								"type": "string"
+							}
+						},
+						"required": [
+							"qrPosition",
+							"qrSize"
+						],
+						"type": "object"
+					},
+					"keyword": {
+						"type": "string"
+					},
+					"authorityIds": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"name"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"EviteActivityType": {
+				"enum": [
+					"check-in",
+					"check-out",
+					"cancelled"
+				],
+				"type": "string"
+			},
+			"EviteBase": {
+				"properties": {
+					"_id": {
+						"type": "string"
+					},
+					"eventId": {
+						"type": "string"
+					},
+					"hasKeyword": {
+						"type": "boolean"
+					},
+					"signatureIdHash": {
+						"type": "string"
+					},
+					"activity": {
+						"items": {
+							"properties": {
+								"timestamp": {
+									"type": "string",
+									"format": "date-time"
+								},
+								"data": {
+									"type": "string"
+								},
+								"type": {
+									"$ref": "#/components/schemas/EviteActivityType"
+								}
+							},
+							"required": [
+								"timestamp",
+								"type"
+							],
+							"type": "object"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"_id",
+					"eventId",
+					"hasKeyword",
+					"signatureIdHash",
+					"activity"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"DocMetaUserAction": {
+				"properties": {
+					"createdById": {
+						"type": "string"
+					},
+					"updatedById": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"createdById"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Evite": {
+				"allOf": [
+					{
+						"$ref": "#/components/schemas/EviteBase"
+					},
+					{
+						"$ref": "#/components/schemas/DocMetaUserAction"
+					},
+					{
+						"$ref": "#/components/schemas/IDocMetaTimestamp"
+					}
+				]
+			},
+			"CreateOneEviteInput": {
+				"properties": {
+					"eventId": {
+						"type": "string"
+					},
+					"keyword": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"eventId"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"VerifyEviteOutput": {
+				"properties": {
+					"isValid": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"isValid"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"VerifyEviteInput": {
+				"properties": {
+					"eviteId": {
+						"type": "string"
+					},
+					"keyword": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"eviteId"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"EviteTicketOutput": {
+				"properties": {
+					"eviteId": {
+						"type": "string"
+					},
+					"url": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"eviteId",
+					"url"
+				],
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
+		"securitySchemes": {
+			"Bearer": {
+				"type": "apiKey",
+				"name": "Authorization",
+				"in": "header"
+			}
+		}
+	},
+	"info": {
+		"title": "evite-micro-event",
+		"version": "1.0.0",
+		"description": "Evite Micro Event Backend",
+		"license": {
+			"name": "MIT"
+		},
+		"contact": {
+			"name": "mernxl ",
+			"email": "mernxl@gmail.com"
+		}
+	},
+	"openapi": "3.0.0",
+	"paths": {
+		"/": {
+			"post": {
+				"operationId": "Create",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Event"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Event"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateOneEventInput"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/{eventId}/tickets": {
+			"put": {
+				"operationId": "UpdateTicket",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Event"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "eventId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"multipart/form-data": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"image": {
+										"type": "string",
+										"format": "binary"
+									}
+								},
+								"required": [
+									"image"
+								]
+							}
+						}
+					}
+				}
+			}
+		},
+		"/evites": {
+			"post": {
+				"operationId": "EviteCreate",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Evite"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Event"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateOneEviteInput"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/evites/verify": {
+			"post": {
+				"operationId": "EviteVerify",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/VerifyEviteOutput"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Event"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/VerifyEviteInput"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/evites/{eviteId}/ticket": {
+			"get": {
+				"operationId": "EviteTicket",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/EviteTicketOutput"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Event"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "eviteId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	]
+}
