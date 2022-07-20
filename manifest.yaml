@@ -59,6 +59,11 @@ spec:
           image: registry.gitlab.com/mernxl-evite/evite-micro-event:latest
           imagePullPolicy: IfNotPresent
           env:
+            - name: JWT_SECRET
+              valueFrom:
+                configMapKeyRef:
+                  name: evite-config
+                  key: AUTH_JWT_SECRET
             - name: CRYPTO_GRPC_ADDRESS
               valueFrom:
                 configMapKeyRef:

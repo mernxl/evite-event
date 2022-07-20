@@ -6,6 +6,7 @@ export interface AppConfiguration {
   NODE_ENV: NODE_ENV;
   SERVER_PORT: number;
   SERVER_HOST: string;
+  JWT_SECRET: string;
   API_BASE_PATH: string;
   REVERSE_PROXY: boolean;
   MONGODB_USE_IN_MEMORY_DB?: boolean;
