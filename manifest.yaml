@@ -121,10 +121,6 @@ spec:
               value: "4042"
             - name: NODE_ENV
               value: production
-            - name: MEDIA_SERVE_URL
-              value: "ss"
-            - name: JWT_SECRET
-              value: "ss"
           ports:
             - containerPort: 4042
 ---
