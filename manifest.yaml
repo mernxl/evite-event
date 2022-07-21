@@ -5,15 +5,11 @@ metadata:
   namespace: evite-micro
 spec:
   hosts:
-    - "evite.com"
-    - "www.evite.com"
+    - event.api.evite.com
   gateways:
     - evite-micro-gateway
   http:
-    - match:
-        - uri:
-            prefix: /events
-      route:
+    - route:
         - destination:
             host: evite-micro-event
             port:
@@ -104,11 +100,11 @@ spec:
                 configMapKeyRef:
                   name: evite-config
                   key: MINIO_REGION
-            - name: MINIO_USE_SSL
+            - name: MINIO_PORT
               valueFrom:
                 configMapKeyRef:
                   name: evite-config
-                  key: MINIO_USE_SSL
+                  key: MINIO_PORT
             - name: MINIO_ACCESS_KEY
               valueFrom:
                 configMapKeyRef:
@@ -126,6 +122,10 @@ spec:
               value: "4042"
             - name: NODE_ENV
               value: production
+            - name: SMTP_USER_PASS
+              value: ""
+            - name: SMTP_USER_NAME
+              value: ""
           ports:
             - containerPort: 4042
 ---
