@@ -3,11 +3,12 @@ import { File } from 'tsoa';
 
 import { config } from '../../config';
 import { cryptoService } from '../../config/grpc';
-import { minioClient } from '../../config/minio';
 import { DocMetaConfig, ErrorResponse, grpcCallWrapper } from '../../utils';
 import { CreateOneEventInput } from '../event.types';
 import { getTicketObjectKey } from '../utils';
 import { IEvent, IEventModel } from './event.types';
+import { s3Client } from '../../config/aws';
+import { PutObjectCommand } from '@aws-sdk/client-s3';
 
 export type EventStaticsType = typeof EventStatics;
 
@@ -54,14 +55,14 @@ export const EventStatics = {
   async saveTicketImage(this: IEventModel, eventId: string | Types.ObjectId, image: File) {
     const event = await this.getById(eventId);
 
-    await minioClient.putObject(
-      config.EVENT.BUCKET_NAME,
-      getTicketObjectKey(event._id),
-      image.buffer,
-      {
-        'Content-Type': image.mimetype,
-      },
-    );
+    const command = new PutObjectCommand({
+      Bucket: config.EVENT.BUCKET_NAME,
+      Key: getTicketObjectKey(event._id),
+      Body: image.stream,
+      ContentType: image.mimetype,
+    });
+
+    await s3Client.send(command);
 
     event.hasTicket = true;
 

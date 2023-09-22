@@ -4,8 +4,8 @@ import packageJson from '../../package.json';
 
 export interface AppConfiguration {
   NODE_ENV: NODE_ENV;
-  SERVER_PORT: number;
-  SERVER_HOST: string;
+  PORT: number;
+  HOST: string;
   JWT_SECRET: string;
   API_BASE_PATH: string;
   REVERSE_PROXY: boolean;
@@ -13,9 +13,6 @@ export interface AppConfiguration {
 
   CRYPTO_GRPC_ADDRESS: string;
   EVENT_IMAGER_GRPC_ADDRESS: string;
-
-  MINIO_REGION?: string;
-  MINIO_USE_SSL?: string;
 
   EVENT: {
     BUCKET_NAME: string;
@@ -37,11 +34,10 @@ export interface AppConfiguration {
     host: string;
     defaultDb: string;
   };
-  minio: {
-    endpoint: string;
-    port: number;
-    accessKey: string;
-    secretKey: string;
+  aws: {
+    region: string;
+    accessKeyId: string;
+    secretAccessKey: string;
   };
   mailer: {
     user: string;
@@ -54,8 +50,8 @@ export interface AppConfiguration {
 const getConfig = (): AppConfiguration =>
   loadConfig<AppConfiguration>('app.ini', {
     API_BASE_PATH: '',
-    SERVER_PORT: 4040,
-    SERVER_HOST: 'localhost',
+    PORT: 4040,
+    HOST: 'localhost',
     app: {
       name: packageJson.name,
       version: packageJson.version,

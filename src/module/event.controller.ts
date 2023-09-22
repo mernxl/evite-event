@@ -26,6 +26,7 @@ import {
   VerifyEviteOutput,
 } from './event.types';
 import { EviteModel } from './evite';
+import { config } from '../config';
 
 @Tags('Event')
 @Route('/')
@@ -82,5 +83,10 @@ export class EventController extends Controller {
     @Path() eviteId: string,
   ): Promise<EviteTicketOutput> {
     return EviteModel.getTicketUrl(eviteId);
+  }
+
+  @Get('/health')
+  async health(): Promise<string> {
+    return config.app.name + ' Service is healthy.';
   }
 }
