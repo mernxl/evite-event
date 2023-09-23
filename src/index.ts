@@ -1,3 +1,5 @@
+import './config/instrumentation';
+
 import { config } from './config';
 import { app } from './config/express';
 
