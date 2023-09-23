@@ -11,6 +11,7 @@ export interface AppConfiguration {
   REVERSE_PROXY: boolean;
   MONGODB_USE_IN_MEMORY_DB?: boolean;
 
+  USE_SECURED_GRPC?: string;
   CRYPTO_GRPC_ADDRESS: string;
   EVENT_IMAGER_GRPC_ADDRESS: string;
 
