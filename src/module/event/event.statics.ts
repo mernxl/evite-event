@@ -58,7 +58,7 @@ export const EventStatics = {
     const command = new PutObjectCommand({
       Bucket: config.EVENT.BUCKET_NAME,
       Key: getTicketObjectKey(event._id),
-      Body: image.stream,
+      Body: image.buffer,
       ContentType: image.mimetype,
     });
 
