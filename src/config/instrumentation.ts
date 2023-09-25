@@ -44,6 +44,11 @@ const sdk = new NodeSDK({
   }),
   instrumentations: [
     getNodeAutoInstrumentations({
+      '@opentelemetry/instrumentation-http': {
+        ignoreIncomingRequestHook: (request) => {
+          return Boolean(request.url?.endsWith('/health')); // skip health check endpoints to avoid polluting data
+        },
+      },
       // only instrument fs if it is part of another trace
       '@opentelemetry/instrumentation-fs': {
         requireParentSpan: true,
